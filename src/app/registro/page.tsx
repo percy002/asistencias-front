@@ -1,11 +1,19 @@
 "use client";
 import { Button, Card, Label, Select } from "flowbite-react";
 import { FloatingLabel } from "flowbite-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Swal from "sweetalert2";
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from "next/navigation";
+import MyContext from "@/contexts/userContext";
 const Page = () => {
+  const context = useContext(MyContext);
+
+  if (!context) {
+    throw new Error("MyContext no está disponible");
+  }
+
+  const { globalVariable, setGlobalVariable } = context;
+
   const [nombres, setNombre] = useState("");
   const [apellidos, setApellidos] = useState("");
   const [dni, setDni] = useState("");
@@ -15,7 +23,6 @@ const Page = () => {
   const router = useRouter();
 
   const handleRegister = async () => {
-
     try {
       const userData = {
         nombres,
@@ -27,20 +34,23 @@ const Page = () => {
       };
       console.log(userData);
 
-      const response = await fetch("http://localhost:8000/api/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nombres,
-          apellidos,
-          dni,
-          genero,
-          gerencia,
-          cargo,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nombres,
+            apellidos,
+            dni,
+            genero,
+            gerencia,
+            cargo,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -50,12 +60,12 @@ const Page = () => {
 
         throw new Error(errors || "¡Algo salió mal!");
       }
-      console.log(data);
-      
+      setGlobalVariable(data.id);
+      console.log(globalVariable, data);
 
       Swal.fire("¡Éxito!", "Tus datos han sido guardados.", "success").then(
         () => {
-          router.push('/usuario/'+data.id);
+          router.push("/usuario");
         }
       );
     } catch (error: any) {
@@ -83,14 +93,14 @@ const Page = () => {
               variant="filled"
               label="Nombres"
               value={nombres}
-              onChange={(e) => setNombre(e.target.value)}
+              onChange={(e) => setNombre(e.target.value.toUpperCase())}
               required
             />
             <FloatingLabel
               variant="filled"
               label="Apellidos"
               value={apellidos}
-              onChange={(e) => setApellidos(e.target.value)}
+              onChange={(e) => setApellidos(e.target.value.toUpperCase())}
             />
             <div className="flex gap-x-8 flex-col md:flex-row">
               <div className="flex-1">
@@ -98,8 +108,12 @@ const Page = () => {
                   variant="filled"
                   label="DNI"
                   value={dni}
-                  onChange={(e) => setDni(e.target.value)}
-                  pattern="\d{8}"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (!isNaN(Number(value)) && value.length <= 8) {
+                      setDni(value);
+                    }
+                  }}
                 />
               </div>
               <div className="flex-1">
@@ -125,8 +139,17 @@ const Page = () => {
                   onChange={(e) => setGerencia(e.target.value)}
                 >
                   <option value={""}>Gerencia</option>
-                  <option value="GEREPRO">GEREPRO</option>
+                  <option value="PRODUCCION">PRODUCCION</option>
                   <option value="VIVIENDA">VIVIENDA</option>
+                  <option value="TRANSPORTES">TRANSPORTES</option>
+                  <option value="RECURSOS NATURALES">RECURSOS NATURALES</option>
+                  <option value="DESARROLLO SOCIAL">DESARROLLO SOCIAL</option>
+                  <option value="MINAS">MINAS</option>
+                  <option value="TRABAJO">TRABAJO</option>
+                  <option value="TURISMO">TURISMO</option>
+                  <option value="AGRICULTURA">AGRICULTURA</option>
+                  <option value="DESAROLLO ECONOMICO">DESAROLLO ECONOMICO</option>
+                  <option value="EDUCACION">EDUCACION</option>
                 </Select>
               </div>
               <div className="flex-1">
@@ -134,7 +157,7 @@ const Page = () => {
                   variant="filled"
                   label="Cargo/Ocupación"
                   value={cargo}
-                  onChange={(e) => setCargo(e.target.value)}
+                  onChange={(e) => setCargo(e.target.value.toUpperCase())}
                 />
               </div>
             </div>

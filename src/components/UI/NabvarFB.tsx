@@ -16,6 +16,10 @@ function NavbarFB() {
           <span className="bg-white text-primary px-4 py-1 md:rounded-full font-bold text-lg flex justify-center">Registrarse</span>
         
         </Navbar.Link>
+        <Navbar.Link href="/buscar" active className="bg-transparent">
+          <span className="bg-white text-primary px-4 py-1 md:rounded-full font-bold text-lg flex justify-center">Mis credenciales</span>
+        
+        </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );
