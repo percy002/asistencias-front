@@ -9,7 +9,7 @@ export default function Home() {
         <div className="flex justify-center h-full">
           <div className="flex flex-col mt-4 gap-12 md:gap-4 h-[80%]">
             <Logos />
-            <h1 className="font-bold text-4xl xl:text-6xl text-center px-4">
+            <h1 className="font-bold text-4xl xl:text-6xl text-center px-4 mt-16">
               Sistema de Registro de Asistencia
             </h1>
             <Link href="/registro" className="w-full flex justify-center">
