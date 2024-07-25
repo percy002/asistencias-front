@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import MyContext from "@/contexts/userContext";
+import Logos from "@/components/UI/Logos";
 const Page = () => {
   const context = useContext(MyContext);
 
@@ -22,18 +23,18 @@ const Page = () => {
   const [cargo, setCargo] = useState("");
   const router = useRouter();
 
+  const [formData, setFormData] = useState({
+    nombres: "",
+    apellidos: "",
+    dni: "",
+    provincia: "",
+    empresa: "",
+    rubro: "",
+    cargo: "",
+  });
+
   const handleRegister = async () => {
     try {
-      const userData = {
-        nombres,
-        apellidos,
-        dni,
-        genero,
-        gerencia,
-        cargo,
-      };
-      console.log(userData);
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
         {
@@ -41,27 +42,25 @@ const Page = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            nombres,
-            apellidos,
-            dni,
-            genero,
-            gerencia,
-            cargo,
-          }),
+          body: JSON.stringify(formData),
         }
       );
 
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 409) {
+          const idUser = data.id;
+          setGlobalVariable(idUser);
+          router.push("/usuario");
+          return;
+        }
+
         const errors = Object.values(data.errors).flat().join("\n");
-        console.log(errors);
 
         throw new Error(errors || "¡Algo salió mal!");
       }
       setGlobalVariable(data.id);
-      console.log(globalVariable, data);
 
       Swal.fire("¡Éxito!", "Tus datos han sido guardados.", "success").then(
         () => {
@@ -76,91 +75,112 @@ const Page = () => {
       Swal.fire("¡Error!", message, "error");
     }
   };
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value.toUpperCase(),
+    });
+    // console.log(formData);
+  };
+
   return (
-    <div className="bg-fondo bg-cover h-[90vh]">
-      <div className="flex flex-col justify-center items-center w-full h-full gap-8 py-1 md:py-0">
-        <img
-          src="/images/logo_gore_cusco.png"
-          alt="logo gobierno regional del cusco"
-          className="w-64"
-        />{" "}
+    <div className="h-[90vh]">
+      <div className="flex flex-col items-center w-full h-full gap-4 pt-4">
+        <Logos />
+
         <Card className="w-4/6">
           <h2 className="text-primary font-bold text-4xl text-center">
             Registrate
           </h2>
           <form action="" className="flex flex-col gap-6">
-            <FloatingLabel
-              variant="filled"
-              label="Nombres"
-              value={nombres}
-              onChange={(e) => setNombre(e.target.value.toUpperCase())}
-              required
-            />
-            <FloatingLabel
-              variant="filled"
-              label="Apellidos"
-              value={apellidos}
-              onChange={(e) => setApellidos(e.target.value.toUpperCase())}
-            />
-            <div className="flex gap-x-8 flex-col md:flex-row">
+            <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <FloatingLabel
                   variant="filled"
                   label="DNI"
-                  value={dni}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (!isNaN(Number(value)) && value.length <= 8) {
-                      setDni(value);
-                    }
-                  }}
+                  name="dni"
+                  value={formData.dni}
+                  onChange={handleInputChange}
                 />
-              </div>
-              <div className="flex-1">
-                <Select
-                  id="genero"
-                  required
-                  value={genero}
-                  onChange={(e) => setGenero(e.target.value)}
-                >
-                  <option value="">Genero</option>
-                  <option value="Masculino">Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                  <option value="Otro">Otro</option>
-                </Select>
-              </div>
-            </div>
-            <div className="flex gap-x-8 flex-col md:flex-row">
-              <div className="flex-1">
-                <Select
-                  id="gerencia"
-                  required
-                  value={gerencia}
-                  onChange={(e) => setGerencia(e.target.value)}
-                >
-                  <option value={""}>Gerencia</option>
-                  <option value="PRODUCCION">PRODUCCION</option>
-                  <option value="VIVIENDA">VIVIENDA</option>
-                  <option value="TRANSPORTES">TRANSPORTES</option>
-                  <option value="RECURSOS NATURALES">RECURSOS NATURALES</option>
-                  <option value="DESARROLLO SOCIAL">DESARROLLO SOCIAL</option>
-                  <option value="MINAS">MINAS</option>
-                  <option value="TRABAJO">TRABAJO</option>
-                  <option value="TURISMO">TURISMO</option>
-                  <option value="AGRICULTURA">AGRICULTURA</option>
-                  <option value="DESAROLLO ECONOMICO">DESAROLLO ECONOMICO</option>
-                  <option value="EDUCACION">EDUCACION</option>
-                </Select>
               </div>
               <div className="flex-1">
                 <FloatingLabel
                   variant="filled"
-                  label="Cargo/Ocupación"
-                  value={cargo}
-                  onChange={(e) => setCargo(e.target.value.toUpperCase())}
+                  label="Nombres"
+                  name="nombres"
+                  value={formData.nombres}
+                  onChange={handleInputChange}
+                  required
                 />
               </div>
             </div>
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <FloatingLabel
+                  variant="filled"
+                  label="Apellidos"
+                  name="apellidos"
+                  value={formData.apellidos}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex-1">
+                <Select
+                  id="gerencia"
+                  required
+                  name="provincia"
+                  value={formData.provincia}
+                  onChange={handleInputChange}
+                >
+                  <option value={""}>Provincia</option>
+                  <option value="ACOMAYO">ACOMAYO</option>
+                  <option value="ANTA">ANTA</option>
+                  <option value="CALCA">CALCA</option>
+                  <option value="CANAS">CANAS</option>
+                  <option value="CANCHIS">CANCHIS</option>
+                  <option value="CHUMBIVILCAS">CHUMBIVILCAS</option>
+                  <option value="CUSCO">CUSCO</option>
+                  <option value="ESPINAR">ESPINAR</option>
+                  <option value="LA CONVENCION">LA CONVENCION</option>
+                  <option value="PARURO">PARURO</option>
+                  <option value="PAUCARTAMBO">PAUCARTAMBO</option>
+                  <option value="QUISPICANCHIS">QUISPICANCHIS</option>
+                  <option value="URUBAMBA">URUBAMBA</option>
+                </Select>
+              </div>
+            </div>
+            <FloatingLabel
+              variant="filled"
+              label="Razón Social (opcional)"
+              name="empresa"
+              value={formData.empresa}
+              onChange={handleInputChange}
+            />
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <FloatingLabel
+                  variant="filled"
+                  label="Rubro (opcional)"
+                  name="rubro"
+                  value={formData.rubro}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="flex-1">
+                <FloatingLabel
+                  variant="filled"
+                  label="Cargo (opcional)"
+                  name="cargo"
+                  value={formData.cargo}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
             <div className="flex justify-center">
               <Button
                 onClick={handleRegister}

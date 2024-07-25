@@ -1,17 +1,14 @@
+import Logos from "@/components/UI/Logos";
 import { Button } from "flowbite-react";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <main className="">
-      <div className="bg-fondo bg-cover h-[90vh]">
-        <div className="flex justify-center items-center h-full">
-          <div className="flex flex-col items-center justify-between gap-16 h-[80%]">
-            <img
-              src="/images/logo_gore_cusco.png"
-              alt="logo gobierno regional del cusco"
-              className="w-64"
-            />
+      <div className="h-[90vh]">
+        <div className="flex justify-center h-full">
+          <div className="flex flex-col mt-4 gap-12 md:gap-4 h-[80%]">
+            <Logos />
             <h1 className="font-bold text-4xl xl:text-6xl text-center px-4">
               Sistema de Registro de Asistencia
             </h1>

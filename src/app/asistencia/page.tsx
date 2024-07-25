@@ -2,6 +2,7 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Logos from "@/components/UI/Logos";
 
 const Page = () => {
   const dniRef = useRef<HTMLInputElement>(null);
@@ -18,7 +19,6 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    console.log(dniValue);
 
     const fetchData = async () => {
       try {
@@ -45,7 +45,6 @@ const Page = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     if (inputValue.length <= 8) {
-      console.log(inputValue.length);
 
       setDniValue(inputValue);
     }
@@ -53,14 +52,10 @@ const Page = () => {
 
   return (
     <main className="">
-      <div className="bg-fondo bg-cover h-[90vh]">
+      <div className="h-[90vh]">
         <div className="flex justify-center items-center h-full">
-          <div className="flex flex-col items-center  gap-16 h-[80%]">
-            <img
-              src="/images/logo_gore_cusco.png"
-              alt="logo gobierno regional del cusco"
-              className="w-64"
-            />
+          <div className="flex flex-col items-center  gap-2 h-[80%]">
+            <Logos/>
             <h1 className="font-bold text-4xl xl:text-6xl text-center px-4">
               Sistema de Registro de Asistencia
             </h1>

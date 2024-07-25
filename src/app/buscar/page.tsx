@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import MyContext from "@/contexts/userContext";
 import Swal from "sweetalert2";
+import Logos from "@/components/UI/Logos";
 const Page = () => {
     const context = useContext(MyContext);
 
@@ -27,7 +28,6 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    console.log(dniValue);
 
     const fetchData = async () => {
       try {
@@ -38,7 +38,6 @@ const Page = () => {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
-        console.log(data);
         
         setGlobalVariable(data.user.id);
         setDniValue("");
@@ -61,7 +60,6 @@ const Page = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     if (inputValue.length <= 8) {
-      console.log(inputValue.length);
 
       setDniValue(inputValue);
     }
@@ -69,18 +67,14 @@ const Page = () => {
 
   return (
     <main className="">
-      <div className="bg-fondo bg-cover h-[90vh]">
-        <div className="flex justify-center items-center h-full">
-          <div className="flex flex-col items-center  gap-16 h-[80%]">
-            <img
-              src="/images/logo_gore_cusco.png"
-              alt="logo gobierno regional del cusco"
-              className="w-64"
-            />
+      <div className="h-[90vh]">
+        <div className="flex justify-center h-full mt-4">
+          <div className="flex flex-col items-center  gap-4 h-[80%]">
+            <Logos/>
             <h1 className="font-bold text-4xl xl:text-6xl text-center px-4">
               Buscar Credenciales
             </h1>
-            <div className="w-full">
+            <div className="w-5/6">
               <div className="mb-2 block">
                 <Label htmlFor="dni" value="Ingresar DNI" className="text-3xl" />
               </div>

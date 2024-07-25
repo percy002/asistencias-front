@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
+import { content } from "flowbite-react/tailwind";
 import QRCode from "qrcode";
 
 import { SetStateAction, useEffect, useState } from "react";
@@ -16,8 +17,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   fotocheck: {
-    width: "50%",
-    height: "50%",
+    width: "33%",
+    height: "100%",
     flexDirection: "column",
     alignItems: "center",
     paddingTop: 10,
@@ -28,9 +29,17 @@ const styles = StyleSheet.create({
     width: "70%",
   },
   logo: {
-    width: "90%",
+    width: "100%",
     paddingHorizontal: 10,
     marginTop: 5,
+    resizeMode: "contain",
+  },
+  logoInferior: {
+    width: "100%",
+    paddingHorizontal: 10,
+    marginTop: 5,
+    resizeMode: "contain",
+    aspectRatio: 1,
   },
   body: {
     flexDirection: "column",
@@ -81,6 +90,30 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: "#545C63",
   },
+  contentQR: {
+    width: "60%",
+    margin: "auto",
+  },
+
+
+  section: {
+    width: "90%",
+    margin: "auto",
+    marginBottom: 4,
+  },
+  // header: {
+  //   fontSize: 14,
+  //   fontWeight: 'bold',
+  // },
+  subHeader: {
+    fontSize: 12,
+    color: 'gray',
+  },
+  text: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    color: 'black',
+  },
 });
 
 // Create Document Component
@@ -104,14 +137,48 @@ const UserPdf = ({ usuario }: any) => {
             <Image src={"../images/logo_gore_cusco.png"} style={styles.logo} />
           </View>
           <View style={styles.body}>
-            <View>
+            <View style={styles.contentQR}>
               {/* eslint-disable-next-line jsx-a11y/alt-text */}
               {qrCode && <Image src={qrCode} />}
             </View>
-            {/* <Text style={styles.name}>
-                            {usuario.dni}
-                            aa
-                        </Text> */}
+            <View style={styles.section}>
+              <Text style={styles.header}>Visitante</Text>
+              <View style={{ flexDirection: "row", marginTop: 4, flexWrap:"wrap" }}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.subHeader}>Nombre</Text>
+                  <Text style={styles.text}>{usuario.nombres}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.subHeader}>Apellidos</Text>
+                  <Text style={styles.text}>{usuario.apellidos}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.subHeader}>DNI</Text>
+                  <Text style={styles.text}>{usuario.dni}</Text>
+                </View>
+              </View>
+            </View>
+            <View style={{ width:"90%", margin:"auto", flexDirection: "column", marginTop: 2, gap:"1rem" }}>
+              <View style={{ }}>
+                <Text style={styles.subHeader}>Provincia</Text>
+                <Text style={styles.text}>{usuario.provincia}</Text>
+              </View>
+              <View style={{marginTop: 1 }}>
+                <Text style={styles.subHeader}>Empresa</Text>
+                <Text style={styles.text}>{usuario.empresa}</Text>
+              </View>
+              <View style={{marginTop: 1 }}>
+                <Text style={styles.subHeader}>Cargo</Text>
+                <Text style={styles.text}>{usuario.cargo}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.header}>
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <Image
+              src={"../images/logo_feria_cuadrado.png"}
+              style={styles.logoInferior}
+            />
           </View>
         </View>
       </Page>

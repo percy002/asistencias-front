@@ -19,7 +19,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        fondo: "url('/images/servidor2.jpg')", // Asegúrate de que la ruta de la imagen es correcta
+        fondo: "url('/images/logo_feria_cuadrado.png')", // Asegúrate de que la ruta de la imagen es correcta
       },
     },
   },

@@ -1,4 +1,6 @@
 "use client";
+import { format } from 'date-fns';
+
 import { Table } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -6,12 +8,18 @@ interface Usuario {
   nombres: string;
   apellidos: string;
   dni: string;
-  genero: string;
-  gerencia: string;
+  provincia: string;
+  empresa: string;
+  rubro: string;
   cargo: string;
+  updated_at: string;
 }
 const Page = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const formatDate = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return format(date, 'HH:mm:ss dd/MM/yyyy');
+  };
   const getUsers = async () => {
     try {
       const response = await fetch(
@@ -35,7 +43,6 @@ const Page = () => {
       //   }/${fechaHora.getFullYear()}`;
       //   const hora = `${fechaHora.getHours()}:${fechaHora.getMinutes()}:${fechaHora.getSeconds()}`;
       //   const año = fechaHora.getFullYear().toString();
-      console.log(data);
 
       setUsuarios(data.users);
     } catch (error: any) {
@@ -55,23 +62,27 @@ const Page = () => {
     <div className="overflow-x-auto">
       <Table striped>
         <Table.Head>
+          <Table.HeadCell>DNI</Table.HeadCell>
           <Table.HeadCell>Nombre</Table.HeadCell>
           <Table.HeadCell>Apellidos</Table.HeadCell>
-          <Table.HeadCell>DNI</Table.HeadCell>
-          <Table.HeadCell>Genero</Table.HeadCell>
-          <Table.HeadCell>Gerencia</Table.HeadCell>
+          <Table.HeadCell>provincia</Table.HeadCell>
+          <Table.HeadCell>Empresa</Table.HeadCell>
+          <Table.HeadCell>Rubro</Table.HeadCell>
           <Table.HeadCell>Cargo</Table.HeadCell>
+          <Table.HeadCell>Fecha/hora</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {usuarios && usuarios.length>0 && usuarios?.map((usuario) => (
             <Table.Row key={usuario.dni} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Cell>{usuario.dni}</Table.Cell>
               <Table.Cell>{usuario.nombres}</Table.Cell>
               <Table.Cell>{usuario.apellidos}</Table.Cell>
-              <Table.Cell>{usuario.dni}</Table.Cell>
-              <Table.Cell>{usuario.genero}</Table.Cell>
-              <Table.Cell>{usuario.gerencia}</Table.Cell>
+              <Table.Cell>{usuario.provincia}</Table.Cell>
+              <Table.Cell>{usuario.empresa}</Table.Cell>
+              <Table.Cell>{usuario.rubro}</Table.Cell>
               <Table.Cell>{usuario.cargo}</Table.Cell>
-            </Table.Row>
+              <Table.Cell>{formatDate(usuario.updated_at)}</Table.Cell>
+              </Table.Row>
           ))}
         </Table.Body>
       </Table>

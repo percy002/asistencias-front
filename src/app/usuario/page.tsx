@@ -2,13 +2,14 @@
 import { useContext, useEffect, useState } from "react";
 // import QRCode from "qrcode.react";
 const PDFDownloadLink = dynamic(
-    () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),
-    { ssr: false }
-  );import dynamic from 'next/dynamic';
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false }
+);
+import dynamic from "next/dynamic";
 
 import Swal from "sweetalert2";
 import MyContext from "@/contexts/userContext";
-import QRCode from 'qrcode';
+import QRCode from "qrcode";
 
 import { Button, Card } from "flowbite-react";
 import { useRouter } from "next/navigation";
@@ -28,8 +29,9 @@ const Page = ({ params }: any) => {
     nombres: "",
     apellidos: "",
     dni: "",
-    genero: "",
-    gerencia: "",
+    provincia: "",
+    empresa: "",
+    rubro: "",
     cargo: "",
     created_at: "",
     hora: "",
@@ -64,8 +66,9 @@ const Page = ({ params }: any) => {
         nombres: data.nombres,
         apellidos: data.apellidos,
         dni: data.dni,
-        genero: data.genero,
-        gerencia: data.gerencia,
+        provincia: data.provincia,
+        empresa: data.empresa,
+        rubro: data.rubro,
         cargo: data.cargo,
         created_at: data.created_at,
         fecha: fecha,
@@ -87,13 +90,13 @@ const Page = ({ params }: any) => {
     }
     getUser();
   }, []);
-  
+
   useEffect(() => {
     QRCode.toDataURL(usuario.dni)
-      .then(url => {
+      .then((url) => {
         setQrCode(url);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }, [usuario.dni]);
@@ -109,15 +112,15 @@ const Page = ({ params }: any) => {
             />
           </div>
           <div className="flex justify-center mt-4">
-          {qrCode && <img src={qrCode} alt="QR Code" className="w-1/2"/>}
+            {qrCode && <img src={qrCode} alt="QR Code" className="w-1/2" />}
           </div>
-          <div className="flex justify-between px-10 mt-2 border-b-2 border-gray-300 pb-3">
-            <span>{usuario.fecha}</span>
-            <span>{usuario.hora}</span>
+          <div className="flex justify-center px-10 mt-2 border-b-2 border-gray-300 pb-3">
+            {/* <span>{usuario.fecha}</span>
+            <span>{usuario.hora}</span> */}
             <span>Registro {usuario.año}</span>
           </div>
           <div className="">
-            <h4 className="font-bold">Personal</h4>
+            <h4 className="font-bold">Visitante</h4>
             <div className="flex mt-4">
               <div className="flex-1">
                 <h5 className=" text-gray-600">Nombre</h5>
@@ -135,16 +138,25 @@ const Page = ({ params }: any) => {
           </div>
           <div className="flex mt-4">
             <div className="flex-1">
-              <h5 className=" text-gray-500">Genero</h5>
-              <p className="font-bold">{usuario.genero}</p>
+              <h5 className=" text-gray-500">Provincia</h5>
+              <p className="font-bold">{usuario.provincia}</p>
             </div>
             <div className="flex-1">
-              <h5 className=" text-gray-500">Gerencia</h5>
-              <p className="font-bold">{usuario.gerencia}</p>
+              <h5 className=" text-gray-500">Empresa</h5>
+              <p className="font-bold">{usuario.empresa}</p>
             </div>
             <div className="flex-1">
-              <h5 className=" text-gray-500">Cargo/Ocupación</h5>
+              <h5 className=" text-gray-500">Cargo</h5>
               <p className="font-bold">{usuario.cargo}</p>
+            </div>
+          </div>
+          <div className="flex mt-4 flex justify-center">
+            <div className="">
+              <img
+                src="/images/logo_feria_cuadrado.png"
+                alt="logo feria regional chicnhero 2024"
+                className="w-5/6"
+              />
             </div>
           </div>
         </div>
