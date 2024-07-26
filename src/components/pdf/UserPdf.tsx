@@ -15,9 +15,10 @@ import { SetStateAction, useEffect, useState } from "react";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "row",
+    justifyContent: "center",
   },
   fotocheck: {
-    width: "33%",
+    width: "40%",
     height: "100%",
     flexDirection: "column",
     alignItems: "center",
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   logoInferior: {
-    width: "100%",
+    width: "90%",
     paddingHorizontal: 10,
     marginTop: 5,
     resizeMode: "contain",

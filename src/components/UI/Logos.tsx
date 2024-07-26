@@ -10,16 +10,16 @@ const Logos = () => {
       </div>
       <div className="flex items-center">
         <img
-          src="/images/logo_camelidos_2.webp"
+          src="/images/logo_feria_cuadrado.png"
           alt="logo feria regiona chinchero 2024"
           className="w-[16rem]"
         />
       </div>
       <div className="fles items-center">
         <img
-          src="/images/logo_alpacas_cusco.png"
+          src="/images/logo_muni_chinchero.png"
           alt="logo municipalidad distrital de chinchero"
-          className="w-56"
+          className="w-80"
         />
       </div>
     </div>

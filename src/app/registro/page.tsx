@@ -162,13 +162,37 @@ const Page = () => {
             />
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
-                <FloatingLabel
+              <Select
+                  id="rubro"
+                  required
+                  name="rubro"
+                  value={formData.rubro}
+                  onChange={handleInputChange}
+                >
+                  <option value={""}>RUBRO</option>
+                  <option value="INDUSTRIALES">INDUSTRIALES</option>
+                  <option value="MANUFACTURERAS">MANUFACTURERAS</option>
+                  <option value="COMERCIO">COMERCIO</option>
+                  <option value="SERVICIOS">SERVICIOS</option>
+                  <option value="TURISMO">TURISMO</option>
+                  <option value="TELECOMUNICACIONES">TELECOMUNICACIONES</option>
+                  <option value="TRANSPORTE">TRANSPORTE</option>
+                  <option value="GANADERIA">GANADERÍA</option>
+                  <option value="PESCA">PESCA</option>
+                  <option value="CONSTRUCCION">CONSTRUCCIÓN</option>
+                  <option value="AGRICULTURA">AGRICULTURA</option>
+                  <option value="TEXTIL">TEXTIL</option>
+                  <option value="DISEÑO Y PUBLICIDAD">DISEÑO Y PUBLICIDAD</option>
+                  <option value="AGROPECUARIAS">AGROPECUARIAS</option>
+                  <option value="OTROS">OTROS</option>
+                </Select>
+                {/* <FloatingLabel
                   variant="filled"
                   label="Rubro (opcional)"
                   name="rubro"
                   value={formData.rubro}
                   onChange={handleInputChange}
-                />
+                /> */}
               </div>
               <div className="flex-1">
                 <FloatingLabel

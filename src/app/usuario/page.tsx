@@ -151,7 +151,7 @@ const Page = ({ params }: any) => {
             </div>
           </div>
           <div className="flex mt-4 flex justify-center">
-            <div className="">
+            <div className="flex justify-center">
               <img
                 src="/images/logo_feria_cuadrado.png"
                 alt="logo feria regional chicnhero 2024"
