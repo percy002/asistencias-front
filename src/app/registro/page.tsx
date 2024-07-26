@@ -136,7 +136,7 @@ const Page = () => {
                   value={formData.provincia}
                   onChange={handleInputChange}
                 >
-                  <option value={""}>Provincia</option>
+                  <option value={""}>Provincia (opcional)</option>
                   <option value="ACOMAYO">ACOMAYO</option>
                   <option value="ANTA">ANTA</option>
                   <option value="CALCA">CALCA</option>
