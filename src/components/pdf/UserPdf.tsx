@@ -177,7 +177,7 @@ const UserPdf = ({ usuario }: any) => {
           <View style={styles.header}>
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <Image
-              src={"../images/logo_feria_cuadrado.png"}
+              src={"../images/logo_camelidos.png"}
               style={styles.logoInferior}
             />
           </View>

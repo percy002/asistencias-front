@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import MyContext from "@/contexts/userContext";
 import Logos from "@/components/UI/Logos";
+import { useEffect } from "react";
 const Page = () => {
   const context = useContext(MyContext);
 
@@ -28,7 +29,7 @@ const Page = () => {
     apellidos: "",
     dni: "",
     provincia: "",
-    empresa: "",
+    empresa: "Independiente",
     rubro: "",
     cargo: "",
   });
@@ -62,11 +63,16 @@ const Page = () => {
       }
       setGlobalVariable(data.id);
 
-      Swal.fire("¡Éxito!", "Tus datos han sido guardados.", "success").then(
-        () => {
-          router.push("/usuario");
+      Swal.fire({
+        title: '¡Registro Exitoso!',
+        text: 'Tus datos han sido registrados correctamente.',
+        icon: 'success',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
         }
-      );
+      });
+      router.push("/usuario");
     } catch (error: any) {
       const message =
         error instanceof Error
@@ -76,10 +82,22 @@ const Page = () => {
     }
   };
 
+  useEffect(() => {
+      Swal.close();  
+    
+  }, [router]);
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
+
+    if (name === 'dni') {
+      const regex = /^[0-9-]*$/;
+      if (!regex.test(value)) {
+        return;
+      }
+    }
     setFormData({
       ...formData,
       [name]: value.toUpperCase(),
@@ -92,9 +110,9 @@ const Page = () => {
       <div className="flex flex-col items-center w-full h-full gap-4 pt-4">
         <Logos />
 
-        <Card className="w-4/6">
+        <Card className="w-11/12 md:w-4/6">
           <h2 className="text-primary font-bold text-4xl text-center">
-            Registrate
+            Regístrate
           </h2>
           <form action="" className="flex flex-col gap-6">
             <div className="flex flex-col md:flex-row gap-4">
@@ -155,7 +173,7 @@ const Page = () => {
             </div>
             <FloatingLabel
               variant="filled"
-              label="Razón Social (opcional)"
+              label="Entidad a la que representa"
               name="empresa"
               value={formData.empresa}
               onChange={handleInputChange}

@@ -12,11 +12,11 @@ function NavbarFB() {
       </Navbar.Brand>
       <Navbar.Toggle className="text-white hover:bg-transparent"/>
       <Navbar.Collapse>
-        <Navbar.Link href="/registro" active className="bg-transparent">
-          <span className="bg-white text-primary px-4 py-1 md:rounded-full font-bold text-lg flex justify-center">Registrarse</span>
-        
+        <Navbar.Link href="/registro" active className="bg-transparent" >
+          <span className="bg-white text-primary px-4 py-1 md:rounded-full font-bold text-lg flex justify-center">Registrarse</span>        
         </Navbar.Link>
-        <Navbar.Link href="/buscar" active className="bg-transparent">
+
+        <Navbar.Link href="/buscar" active className="bg-transparent" >
           <span className="bg-white text-primary px-4 py-1 md:rounded-full font-bold text-lg flex justify-center">Mis credenciales</span>
         
         </Navbar.Link>

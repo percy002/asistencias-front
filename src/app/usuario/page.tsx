@@ -84,6 +84,9 @@ const Page = ({ params }: any) => {
     }
   };
   useEffect(() => {
+    Swal.close();
+  }, []);
+  useEffect(() => {
     if (globalVariable == "") {
       router.push("/registro");
       return;
@@ -92,14 +95,16 @@ const Page = ({ params }: any) => {
   }, []);
 
   useEffect(() => {
-    QRCode.toDataURL(usuario.dni)
-      .then((url) => {
-        setQrCode(url);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [usuario.dni]);
+    if (globalVariable !== "") {
+      QRCode.toDataURL(usuario.dni)
+        .then((url) => {
+          setQrCode(url);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [usuario.dni,globalVariable]);
   return (
     <div className="flex justify-center mt-8 text-gray-700">
       <Card className="w-full sm:w-1/2 xl:w-1/3">
@@ -153,7 +158,7 @@ const Page = ({ params }: any) => {
           <div className="flex mt-4 flex justify-center">
             <div className="flex justify-center">
               <img
-                src="/images/logo_feria_cuadrado.png"
+                src="/images/logo_camelidos.png"
                 alt="logo feria regional chicnhero 2024"
                 className="w-5/6"
               />

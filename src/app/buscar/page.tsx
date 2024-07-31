@@ -52,7 +52,7 @@ const Page = () => {
       }
     };
 
-    if (dniValue && dniValue.length === 8) {
+    if (dniValue && dniValue.length >= 7) {
       fetchData();
     }
   }, [dniValue,router,setGlobalVariable]);
