@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NavbarFB from "@/components/UI/NabvarFB";
 import MyContext from "@/contexts/userContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -19,11 +19,15 @@ export default function RootLayout({
 }>) 
 {
   const [globalVariable, setGlobalVariable] = useState<string>('');
+  const [clientClassName, setClientClassName] = useState<string>('');
 
+  useEffect(() => {
+    setClientClassName(inter.className);
+  }, []);
   return (
     <MyContext.Provider value={{ globalVariable, setGlobalVariable }}>
       <html lang="es" suppressHydrationWarning={true}>
-        <body className={inter.className}>
+        <body className={clientClassName}>
           <NavbarFB />
           {children}
         </body>
